@@ -1,0 +1,11 @@
+src/
+pkg/
+*.pkg.tar.*
+*.tar
+*.tar.*
+obs-studio/
+obs-browser/
+obs-websocket/
+*.log
+*.rej
+*.orig
