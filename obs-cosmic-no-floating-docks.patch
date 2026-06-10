@@ -1,0 +1,193 @@
+diff --git a/frontend/OBSStudioAPI.cpp b/frontend/OBSStudioAPI.cpp
+index 76678992f..e97dbcc2b 100644
+--- a/frontend/OBSStudioAPI.cpp
++++ b/frontend/OBSStudioAPI.cpp
+@@ -347,7 +347,7 @@ bool OBSStudioAPI::obs_frontend_add_dock_by_id(const char *id, const char *title
+ 	main->AddDockWidget(dock, Qt::RightDockWidgetArea);
+ 
+ 	dock->setVisible(false);
+-	dock->setFloating(true);
++	dock->setFloating(false);
+ 
+ 	return true;
+ }
+diff --git a/frontend/forms/OBSBasic.ui b/frontend/forms/OBSBasic.ui
+index 1224c33e1..8f229fb1d 100644
+--- a/frontend/forms/OBSBasic.ui
++++ b/frontend/forms/OBSBasic.ui
+@@ -972,7 +972,7 @@
+   <widget class="OBSBasicStatusBar" name="statusbar"/>
+   <widget class="OBSDock" name="scenesDock">
+    <property name="features">
+-    <set>QDockWidget::DockWidgetClosable|QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
++    <set>QDockWidget::DockWidgetClosable|QDockWidget::DockWidgetMovable</set>
+    </property>
+    <property name="windowTitle">
+     <string>Basic.Main.Scenes</string>
+@@ -1101,7 +1101,7 @@
+   </widget>
+   <widget class="OBSDock" name="sourcesDock">
+    <property name="features">
+-    <set>QDockWidget::DockWidgetClosable|QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
++    <set>QDockWidget::DockWidgetClosable|QDockWidget::DockWidgetMovable</set>
+    </property>
+    <property name="windowTitle">
+     <string>Basic.Main.Sources</string>
+@@ -1233,7 +1233,7 @@
+     <enum>Qt::CustomContextMenu</enum>
+    </property>
+    <property name="features">
+-    <set>QDockWidget::DockWidgetClosable|QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
++    <set>QDockWidget::DockWidgetClosable|QDockWidget::DockWidgetMovable</set>
+    </property>
+    <property name="windowTitle">
+     <string>Mixer</string>
+@@ -1263,7 +1263,7 @@
+   </widget>
+   <widget class="OBSDock" name="transitionsDock">
+    <property name="features">
+-    <set>QDockWidget::DockWidgetClosable|QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
++    <set>QDockWidget::DockWidgetClosable|QDockWidget::DockWidgetMovable</set>
+    </property>
+    <property name="windowTitle">
+     <string>Basic.SceneTransitions</string>
+diff --git a/frontend/oauth/RestreamAuth.cpp b/frontend/oauth/RestreamAuth.cpp
+index 92beb9c1d..2f18b447f 100644
+--- a/frontend/oauth/RestreamAuth.cpp
++++ b/frontend/oauth/RestreamAuth.cpp
+@@ -188,9 +188,9 @@ void RestreamAuth::LoadUI()
+ 
+ 	/* ----------------------------------- */
+ 
+-	chat->setFloating(true);
+-	info->setFloating(true);
+-	channels->setFloating(true);
++	chat->setFloating(false);
++	info->setFloating(false);
++	channels->setFloating(false);
+ 
+ 	chat->move(pos.x() + size.width() - chat->width() - 30, pos.y() + 60);
+ 	info->move(pos.x() + 20, pos.y() + 60);
+diff --git a/frontend/oauth/TwitchAuth.cpp b/frontend/oauth/TwitchAuth.cpp
+index 3b35e7291..8467b2432 100644
+--- a/frontend/oauth/TwitchAuth.cpp
++++ b/frontend/oauth/TwitchAuth.cpp
+@@ -265,7 +265,7 @@ void TwitchAuth::LoadUI()
+ 
+ 	/* ----------------------------------- */
+ 
+-	chat->setFloating(true);
++	chat->setFloating(false);
+ 	chat->move(pos.x() + size.width() - chat->width() - 50, pos.y() + 50);
+ 
+ 	if (firstLoad) {
+@@ -371,9 +371,9 @@ void TwitchAuth::LoadSecondaryUIPanes()
+ 
+ 	/* ----------------------------------- */
+ 
+-	info->setFloating(true);
+-	stats->setFloating(true);
+-	feed->setFloating(true);
++	info->setFloating(false);
++	stats->setFloating(false);
++	feed->setFloating(false);
+ 
+ 	QSize statSize = stats->frameSize();
+ 
+diff --git a/frontend/oauth/YoutubeAuth.cpp b/frontend/oauth/YoutubeAuth.cpp
+index 399cab11c..6ca73fd96 100644
+--- a/frontend/oauth/YoutubeAuth.cpp
++++ b/frontend/oauth/YoutubeAuth.cpp
+@@ -133,7 +133,7 @@ void YoutubeAuth::LoadUI()
+ 	chat->SetWidget(browser);
+ 	main->AddDockWidget(chat, Qt::RightDockArea);
+ 
+-	chat->setFloating(true);
++	chat->setFloating(false);
+ 	chat->move(pos.x() + size.width() - chat->width() - 50, pos.y() + 50);
+ 
+ 	if (firstLoad) {
+diff --git a/frontend/widgets/OBSBasic.cpp b/frontend/widgets/OBSBasic.cpp
+index e3277eb5f..a98b7ac34 100644
+--- a/frontend/widgets/OBSBasic.cpp
++++ b/frontend/widgets/OBSBasic.cpp
+@@ -357,12 +357,11 @@ OBSBasic::OBSBasic(QWidget *parent) : OBSMainWindow(parent), undo_s(ui), ui(new
+ 
+ 	statsDock = new OBSDock();
+ 	statsDock->setObjectName(QStringLiteral("statsDock"));
+-	statsDock->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable |
+-			       QDockWidget::DockWidgetFloatable);
++	statsDock->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable);
+ 	statsDock->setWindowTitle(QTStr("Basic.Stats"));
+ 	addDockWidget(Qt::BottomDockWidgetArea, statsDock);
+ 	statsDock->setVisible(false);
+-	statsDock->setFloating(true);
++	statsDock->setFloating(false);
+ 	statsDock->resize(700, 200);
+ 
+ 	copyActionsDynamicProperties();
+diff --git a/frontend/widgets/OBSBasic_Browser.cpp b/frontend/widgets/OBSBasic_Browser.cpp
+index ecac24957..69ed20852 100644
+--- a/frontend/widgets/OBSBasic_Browser.cpp
++++ b/frontend/widgets/OBSBasic_Browser.cpp
+@@ -145,7 +145,7 @@ void OBSBasic::AddExtraBrowserDock(const QString &title, const QString &url, con
+ 	extraBrowserDockTargets.push_back(url);
+ 
+ 	if (firstCreate) {
+-		dock->setFloating(true);
++		dock->setFloating(false);
+ 
+ 		QPoint curPos = pos();
+ 		QSize wSizeD2 = size() / 2;
+diff --git a/frontend/widgets/OBSBasic_Docks.cpp b/frontend/widgets/OBSBasic_Docks.cpp
+index b35839ef0..d6637431f 100644
+--- a/frontend/widgets/OBSBasic_Docks.cpp
++++ b/frontend/widgets/OBSBasic_Docks.cpp
+@@ -61,7 +61,7 @@ void OBSBasic::on_resetDocks_triggered(bool force)
+ #define RESET_DOCKLIST(dockList)                                                                               \
+ 	for (int i = dockList.size() - 1; i >= 0; i--) {                                                       \
+ 		dockList[i]->setVisible(true);                                                                 \
+-		dockList[i]->setFloating(true);                                                                \
++		dockList[i]->setFloating(false);                                                                \
+ 		dockList[i]->move(frameGeometry().topLeft() + rect().center() - dockList[i]->rect().center()); \
+ 		dockList[i]->setVisible(false);                                                                \
+ 	}
+@@ -87,7 +87,7 @@ void OBSBasic::on_resetDocks_triggered(bool force)
+ 	ui->transitionsDock->setVisible(true);
+ 	controlsDock->setVisible(true);
+ 	statsDock->setVisible(false);
+-	statsDock->setFloating(true);
++	statsDock->setFloating(false);
+ 
+ 	QList<QDockWidget *> bottomDocks{ui->mixerDock, ui->transitionsDock, controlsDock};
+ 
+@@ -104,8 +104,7 @@ void OBSBasic::on_lockDocks_toggled(bool lock)
+ {
+ 	QDockWidget::DockWidgetFeatures features =
+ 		lock ? QDockWidget::NoDockWidgetFeatures
+-		     : (QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable |
+-			QDockWidget::DockWidgetFloatable);
++		     : (QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable);
+ 
+ 	QDockWidget::DockWidgetFeatures mainFeatures = features;
+ 	mainFeatures &= ~QDockWidget::QDockWidget::DockWidgetClosable;
+@@ -144,8 +143,7 @@ void OBSBasic::AddDockWidget(QDockWidget *dock, Qt::DockWidgetArea area, bool ex
+ 	bool lock = ui->lockDocks->isChecked();
+ 	QDockWidget::DockWidgetFeatures features =
+ 		lock ? QDockWidget::NoDockWidgetFeatures
+-		     : (QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable |
+-			QDockWidget::DockWidgetFloatable);
++		     : (QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable);
+ 
+ 	setupDockAction(dock);
+ 	dock->setFeatures(features);
+@@ -210,8 +208,7 @@ void OBSBasic::AddCustomDockWidget(QDockWidget *dock)
+ 	bool lock = ui->lockDocks->isChecked();
+ 	QDockWidget::DockWidgetFeatures features =
+ 		lock ? QDockWidget::NoDockWidgetFeatures
+-		     : (QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable |
+-			QDockWidget::DockWidgetFloatable);
++		     : (QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable);
+ 
+ 	dock->setFeatures(features);
+ 	addDockWidget(Qt::RightDockWidgetArea, dock);
