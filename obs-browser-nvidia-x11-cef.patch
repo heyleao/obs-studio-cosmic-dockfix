@@ -1,0 +1,26 @@
+diff --git a/plugins/obs-browser/obs-browser-plugin.cpp b/plugins/obs-browser/obs-browser-plugin.cpp
+index 0d10ffb..18bd2f7 100644
+--- a/plugins/obs-browser/obs-browser-plugin.cpp
++++ b/plugins/obs-browser/obs-browser-plugin.cpp
+@@ -362,7 +362,7 @@ static void BrowserInit(void)
+ #if defined(__APPLE__) || defined(_WIN32) || !defined(ENABLE_WAYLAND)
+ 	app = new BrowserApp(tex_sharing_avail);
+ #else
+-	app = new BrowserApp(tex_sharing_avail, obs_get_nix_platform() == OBS_NIX_PLATFORM_WAYLAND);
++	app = new BrowserApp(tex_sharing_avail, false);
+ #endif
+ 
+ #ifdef _WIN32
+@@ -699,11 +699,7 @@ static void check_hwaccel_support(void)
+ 	if (!glVersion)
+ 		return;
+ 
+-	if (strstr(glVersion, "NVIDIA") != NULL) {
+-		hwaccel = false;
+-		blog(LOG_INFO,
+-		     "[obs-browser]: Blacklisted driver detected, disabling browser source hardware acceleration.");
+-	}
++	UNUSED_PARAMETER(glVersion);
+ 	return;
+ }
+ #else
