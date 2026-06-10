@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+export QT_QPA_PLATFORM=xcb
+export GDK_BACKEND=x11
+export SDL_VIDEODRIVER=x11
+export QT_STYLE_OVERRIDE=Fusion
+export QT_QPA_PLATFORMTHEME=
+exec obs --disable-missing-files-check "$@"
