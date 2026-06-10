@@ -1,0 +1,10 @@
+GPL-2.0-or-later
+
+This packaging repository is distributed under the same license family as OBS
+Studio. OBS Studio itself is GPL-2.0-or-later; see the upstream project for the
+full source license details:
+
+https://github.com/obsproject/obs-studio
+
+The local packaging files and patches in this repository may be used,
+modified, and redistributed under GPL-2.0-or-later.
