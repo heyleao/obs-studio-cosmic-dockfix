@@ -100,7 +100,7 @@ index 399cab11c..6ca73fd96 100644
 +++ b/frontend/oauth/YoutubeAuth.cpp
 @@ -133,7 +133,7 @@ void YoutubeAuth::LoadUI()
  	chat->SetWidget(browser);
- 	main->AddDockWidget(chat, Qt::RightDockArea);
+ 	main->AddDockWidget(chat, Qt::RightDockWidgetArea);
  
 -	chat->setFloating(true);
 +	chat->setFloating(false);
